@@ -2,19 +2,16 @@ package com.github.dcameronmauch.scala_http4s_zio
 
 import cats.effect._
 import cats.implicits._
+
+import io.circe.generic.auto._
+import io.circe.syntax._
+
 import org.http4s._
+import org.http4s.circe._
+import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.dsl.io._
 import org.http4s.implicits._
 import org.http4s.server.blaze._
-
-
-//import cats.effect._
-//
-//import io.circe._
-//import io.circe.generic.auto._
-//import io.circe.syntax._
-//
-//import org.http4s.circe._
 
 object Main extends IOApp {
 
@@ -28,7 +25,7 @@ object Main extends IOApp {
   case class Response(greeting: String)
 
   private val service = HttpRoutes.of[IO] {
-    case json @ POST -> Root / "hello" / name => for {
+    case json @ POST -> Root / "hello" => for {
       request <- json.as[Request]
       response <- Ok(Response(request).asJson)
     } yield response
