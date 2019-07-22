@@ -13,6 +13,8 @@ import org.http4s.dsl.io._
 import org.http4s.implicits._
 import org.http4s.server.blaze._
 
+import dev.zio
+
 object Main extends IOApp {
 
   case class Request(name: String)
